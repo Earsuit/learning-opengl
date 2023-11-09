@@ -1,3 +1,5 @@
 #version 330 core
-
-layout(location = 0) in vec3 vertexPosition_modelspace;
+out vec3 color;
+void main(){
+  color = vec3(1,0,0);
+}
