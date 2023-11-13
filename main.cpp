@@ -16,10 +16,16 @@ using namespace glm;
 
 // An array of 3 vectors which represents 3 vertices
 constexpr GLfloat g_vertex_buffer_data[] = {
-   -1.0f, -1.0f, 0.0f,
-   1.0f, -1.0f, 0.0f,
-   0.0f,  1.0f, 0.0f,
+    0.5f,  0.5f, 0.0f,  // top right
+    0.5f, -0.5f, 0.0f,  // bottom right
+    -0.5f, -0.5f, 0.0f,  // bottom left
+    -0.5f,  0.5f, 0.0f   // top left 
 };
+
+constexpr unsigned int indices[] = {  // note that we start from 0!
+    0, 1, 3,   // first triangle
+    1, 2, 3    // second triangle
+};  
 
 int main() 
 {
@@ -58,9 +64,10 @@ int main()
     // shader program
     const auto shaderProgram = loadShaders("../shaders/SimpleVertexShader.glsl", "../shaders/SimpleFragmentShader.glsl");
 
-    GLuint VertexArrayID, vertexbuffer;
+    GLuint VertexArrayID, vertexbuffer, ebo;
     glGenVertexArrays(1, &VertexArrayID);
     glGenBuffers(1, &vertexbuffer);
+    glGenBuffers(1, &ebo);
      // bind the Vertex Array Object first, then bind and set vertex buffer(s), and then configure vertex attributes(s).
     glBindVertexArray(VertexArrayID);
 
@@ -69,6 +76,10 @@ int main()
     glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
     // Give our vertices to OpenGL.
     glBufferData(GL_ARRAY_BUFFER, sizeof(g_vertex_buffer_data), g_vertex_buffer_data, GL_STATIC_DRAW);
+
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
+
     glVertexAttribPointer(
     0,                  // attribute 0. No particular reason for 0, but must match the layout in the shader.
     3,                  // size
@@ -91,7 +102,7 @@ int main()
 
         glUseProgram(shaderProgram);
         glBindVertexArray(VertexArrayID); // seeing as we only have a single VAO there's no need to bind it every time, but we'll do so to keep things a bit more organized
-        glDrawArrays(GL_TRIANGLES, 0, 3); // Starting from vertex 0; 3 vertices total -> 1 triangle
+        glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
         
         // Swap buffers
         glfwSwapBuffers(window);
