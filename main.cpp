@@ -63,10 +63,6 @@ int main()
     GLuint vertexbuffer;
     // Generate 1 buffer, put the resulting identifier in vertexbuffer
     glGenBuffers(1, &vertexbuffer);
-    // The following commands will talk about our 'vertexbuffer' buffer
-    glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
-    // Give our vertices to OpenGL.
-    glBufferData(GL_ARRAY_BUFFER, sizeof(g_vertex_buffer_data), g_vertex_buffer_data, GL_STATIC_DRAW);
 
     // shader program
     const auto shaderPorgram = loadShaders("../shaders/SimpleVertexShader.glsl", "../shaders/SimpleFragmentShader.glsl");
@@ -76,7 +72,10 @@ int main()
         glClear( GL_COLOR_BUFFER_BIT );
 
         // 1st attribute buffer : vertices
-        glEnableVertexAttribArray(0);
+        // The following commands will talk about our 'vertexbuffer' buffer
+        glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
+        // Give our vertices to OpenGL.
+        glBufferData(GL_ARRAY_BUFFER, sizeof(g_vertex_buffer_data), g_vertex_buffer_data, GL_STATIC_DRAW);
         glVertexAttribPointer(
         0,                  // attribute 0. No particular reason for 0, but must match the layout in the shader.
         3,                  // size
@@ -85,6 +84,7 @@ int main()
         0,                  // stride
         (void*)0            // array buffer offset
         );
+        glEnableVertexAttribArray(0);
         glUseProgram(shaderPorgram);
 
         // Draw the triangle !
