@@ -61,6 +61,7 @@ int main()
     GLuint VertexArrayID, vertexbuffer;
     glGenVertexArrays(1, &VertexArrayID);
     glGenBuffers(1, &vertexbuffer);
+     // bind the Vertex Array Object first, then bind and set vertex buffer(s), and then configure vertex attributes(s).
     glBindVertexArray(VertexArrayID);
 
     // 1st attribute buffer : vertices
