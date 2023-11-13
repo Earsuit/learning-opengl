@@ -2,7 +2,14 @@ cmake_minimum_required(VERSION 3.19 FATAL_ERROR)
 
 project(Opengl)
 
-add_executable(OpenglExample main.cpp)
+set(
+    SRC_FILES
+    main.cpp
+    common/loadShader.h
+    common/loadShader.cpp
+)
+
+add_executable(OpenglExample ${SRC_FILES})
 
 find_package(glm REQUIRED)
 find_package(OpenGL REQUIRED)
