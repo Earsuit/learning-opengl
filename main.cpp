@@ -65,7 +65,7 @@ int main()
     glGenBuffers(1, &vertexbuffer);
 
     // shader program
-    const auto shaderPorgram = loadShaders("../shaders/SimpleVertexShader.glsl", "../shaders/SimpleFragmentShader.glsl");
+    const auto shaderProgram = loadShaders("../shaders/SimpleVertexShader.glsl", "../shaders/SimpleFragmentShader.glsl");
 
     do{
         // Clear the screen. It's not mentioned before Tutorial 02, but it can cause flickering, so it's there nonetheless.
@@ -85,7 +85,7 @@ int main()
         (void*)0            // array buffer offset
         );
         glEnableVertexAttribArray(0);
-        glUseProgram(shaderPorgram);
+        glUseProgram(shaderProgram);
 
         // Draw the triangle !
         glDrawArrays(GL_TRIANGLES, 0, 3); // Starting from vertex 0; 3 vertices total -> 1 triangle
